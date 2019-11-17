@@ -1,30 +1,21 @@
 import * as React from "react";
 
+import { LocationTypes, Locateable } from "./../types";
 import { MapLocation } from "./MapLocation";
 
-const houses = [
-  {
-    location: {
-      x: 10.0,
-      y: 10.0,
-    },
-    num_bedrooms: 4,
-    num_bathrooms: 2,
-  },
-  {
-    location: {
-      x: 20.0,
-      y: 20.0,
-    },
-    num_bedrooms: 3,
-    num_bathrooms: 1,
-  },
-];
+export interface MapProps {
+  locations: Array<Locateable>;
+}
 
-export const Map = (props: {}) => (
+export const Map = (props: MapProps) => (
   <div className="map-container">
-    {houses.map((h, i) => (
-      <MapLocation key={i} type={"house"} x={h.location.x} y={h.location.y} />
+    {props.locations.map((loc, i) => (
+      <MapLocation
+        key={i}
+        type={loc.type}
+        x={loc.location.x}
+        y={loc.location.y}
+      />
     ))}
   </div>
 );
