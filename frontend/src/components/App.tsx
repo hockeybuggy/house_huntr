@@ -1,10 +1,14 @@
 import * as React from "react";
 
-import { Map } from "./Map";
+import "./../app.css";
+
 import { Locateable } from "./../types";
 import { houseFactory, schoolFactory } from "./../factories";
 
-import "./../app.css";
+import { Map } from "./Map";
+import { Header } from "./Header";
+import { HouseList } from "./HouseList";
+import { Controls } from "./Controls";
 
 const NUMBER_OF_HOUSES = 31;
 const NUMBER_OF_SCHOOLS = 3;
@@ -22,10 +26,13 @@ export const App = (props: {}) => {
     schools as Array<Locateable>
   );
   return (
-    <div>
-      <h1>House huntr</h1>
+    <div className="app-container">
+      <Header />
+      <Controls />
 
       <Map locations={locations} />
+
+      <HouseList houses={houses} />
     </div>
   );
 };

@@ -8,14 +8,16 @@ export interface MapProps {
 }
 
 export const Map = (props: MapProps) => (
-  <div className="map-container">
-    {props.locations.map((loc, i) => (
-      <MapLocation
-        key={i}
-        type={loc.type}
-        x={loc.location.x}
-        y={loc.location.y}
-      />
-    ))}
+  <div className="map-outer-container">
+    <div className="map-container">
+      {props.locations.map((loc, i) => (
+        <MapLocation
+          key={i}
+          type={loc.type}
+          x={loc.location.x}
+          y={loc.location.y}
+        />
+      ))}
+    </div>
   </div>
 );

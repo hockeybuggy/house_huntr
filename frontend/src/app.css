@@ -1,4 +1,15 @@
 
+.app-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.app-container > * {
+  padding: 10px;
+  flex: 1 100%;
+}
+
 .map-container {
   background-color: grey;
   position: relative;
@@ -12,4 +23,13 @@
   /* These sizes should match the `MAP_LOCATION_SIZE` const */
   height: 5px;
   width: 5px;
+}
+
+.house-list-container {
+  min-width: 200px;
+}
+
+@media all and (min-width: 600px) {
+  .map-outer-container { flex: 0 1 0; }
+  .house-list-container { flex: 1 0 0; }
 }

@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { LocationTypes } from "./../types";
+// TODO move this into `Map`
 
 interface MapLocationProps {
   type: LocationTypes;
