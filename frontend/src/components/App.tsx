@@ -1,12 +1,13 @@
 import * as React from "react";
 
-export interface AppProps {
-  compiler: string;
-  framework: string;
-}
+import { Map } from "./Map";
 
-export const App = (props: AppProps) => (
-  <h1>
-    Hello from {props.compiler} and {props.framework}!
-  </h1>
+import "./../app.css";
+
+export const App = (props: {}) => (
+  <div>
+    <h1>House huntr</h1>
+
+    <Map />
+  </div>
 );

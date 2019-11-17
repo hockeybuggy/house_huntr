@@ -1,0 +1,13 @@
+
+.map-container {
+  background-color: grey;
+  height: 400px;
+  width: 400px;
+}
+
+.map-location {
+  background-color: green;
+  height: 5px;
+  width: 5px;
+  position: relative;
+}

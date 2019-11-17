@@ -8,4 +8,4 @@ import { App } from "./components/App";
 const root = document.createElement("div");
 document.body.appendChild(root);
 
-ReactDOM.render(<App compiler="TypeScript" framework="React" />, root);
+ReactDOM.render(<App />, root);
