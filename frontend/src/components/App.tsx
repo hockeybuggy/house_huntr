@@ -35,9 +35,8 @@ export const App = (props: {}) => {
 
   // TODO This isn't efficent to loop through the list like this. It would be
   // better to structure "houses" as an indexable collection.
-  const selectedHouse: undefined | House = houses.find(
-    h => h.id === selectedHouseId
-  );
+  const selectedHouse: null | House =
+    houses.find(h => h.id === selectedHouseId) || null;
 
   return (
     <div className="app-container">
