@@ -44,7 +44,7 @@ export const App = (props: {}) => {
       <Header />
       <Controls />
 
-      <Map locations={locations} />
+      <Map locations={locations} selectedHouseId={selectedHouseId} />
 
       <div className="houses-container">
         <SelectedHouseDetails

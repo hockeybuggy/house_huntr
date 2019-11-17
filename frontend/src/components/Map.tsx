@@ -1,10 +1,10 @@
 import * as React from "react";
 
-import { LocationTypes, Locateable } from "./../types";
-import { MapLocation } from "./MapLocation";
+import { House, HouseId, LocationTypes, Locateable } from "./../types";
 
 export interface MapProps {
   locations: Array<Locateable>;
+  selectedHouseId: HouseId | null;
 }
 
 export const Map = (props: MapProps) => (
@@ -14,6 +14,11 @@ export const Map = (props: MapProps) => (
         <MapLocation
           key={i}
           type={loc.type}
+          selected={
+            (loc as House).id
+              ? (loc as House).id === props.selectedHouseId
+              : false
+          }
           x={loc.location.x}
           y={loc.location.y}
         />
@@ -21,3 +26,38 @@ export const Map = (props: MapProps) => (
     </div>
   </div>
 );
+
+interface MapLocationProps {
+  type: LocationTypes;
+  selected: boolean;
+  x: number;
+  y: number;
+}
+
+function getColorForLocationType(type: LocationTypes): string {
+  switch (type) {
+    case "house":
+      return "green";
+    case "school":
+      return "blue";
+  }
+  throw Error(`Non exaustive match for location color ${type}`);
+}
+
+export const MapLocation = (props: MapLocationProps) => {
+  let color = getColorForLocationType(props.type);
+  if (props.selected) {
+    color = "red";
+  }
+
+  return (
+    <div
+      className="map-location"
+      style={{
+        left: `${props.x}px`,
+        top: `${props.y}px`,
+        backgroundColor: color,
+      }}
+    ></div>
+  );
+};

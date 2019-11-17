@@ -13,6 +13,7 @@ describe("Map", () => {
   it("render an empty map when there are no locations", () => {
     const { wrapper } = render({
       locations: [],
+      selectedHouseId: null,
     });
 
     expect(wrapper.find(".map-container").exists()).toBe(true);
@@ -22,6 +23,7 @@ describe("Map", () => {
   it("renders a location with a className and positioning", () => {
     const { wrapper } = render({
       locations: [houseFactory({ location: { x: 10, y: 20 } })],
+      selectedHouseId: null,
     });
 
     const locations = wrapper.find(".map-location");
@@ -43,6 +45,7 @@ describe("Map", () => {
   it("renders locations with 'house' type as green", () => {
     const { wrapper } = render({
       locations: [houseFactory({})],
+      selectedHouseId: null,
     });
 
     const house = wrapper.find(".map-location").first();
@@ -57,6 +60,7 @@ describe("Map", () => {
   it("renders locations with 'school' type as blue", () => {
     const { wrapper } = render({
       locations: [schoolFactory({})],
+      selectedHouseId: null,
     });
 
     const house = wrapper.find(".map-location").first();
@@ -66,5 +70,23 @@ describe("Map", () => {
       backgroundColor: "blue",
     };
     expect(house.find("div").prop("style")).toEqual(expectedStyles);
+  });
+
+  it("renders selected locations as red", () => {
+    const house = houseFactory({});
+    const selectedHouseId = house.id;
+    const { wrapper } = render({
+      locations: [house],
+      selectedHouseId: selectedHouseId,
+    });
+
+    const selected = wrapper.find(".map-location").first();
+
+    const expectedStyles = {
+      left: expect.anything(),
+      top: expect.anything(),
+      backgroundColor: "red",
+    };
+    expect(selected.find("div").prop("style")).toEqual(expectedStyles);
   });
 });
