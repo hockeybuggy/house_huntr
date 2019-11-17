@@ -10,3 +10,7 @@ export interface House extends Locateable {
   num_bedrooms: number;
   num_bathrooms: number;
 }
+
+export interface School extends Locateable {
+  type: "school";
+}

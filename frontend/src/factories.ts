@@ -1,4 +1,4 @@
-import { House } from "./types";
+import { House, School } from "./types";
 import { WORLD_SIZE, MAP_LOCATION_SIZE } from "./constants";
 
 const MAX_BEDROOMS = 4;
@@ -21,6 +21,18 @@ export function houseFactory(overrides: Partial<House>): House {
     },
     num_bedrooms: Math.round(Math.random() * MAX_BEDROOMS),
     num_bathrooms: Math.round(Math.random() * MAX_BATHROOM),
+    ...overrides,
+  };
+}
+
+export function schoolFactory(overrides: Partial<School>): School {
+  // Create a semi-random School, with optional overrides for any value.
+  return {
+    type: "school",
+    location: {
+      x: randomPosition(),
+      y: randomPosition(),
+    },
     ...overrides,
   };
 }

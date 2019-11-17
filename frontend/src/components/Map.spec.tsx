@@ -2,7 +2,7 @@ import { mount } from "enzyme";
 import * as React from "react";
 
 import { Map, MapProps } from "./Map";
-import { houseFactory } from "./../factories";
+import { houseFactory, schoolFactory } from "./../factories";
 
 function render(props: MapProps) {
   const wrapper = mount(<Map {...props} />);
@@ -42,7 +42,7 @@ describe("Map", () => {
 
   it("renders locations with 'house' type as green", () => {
     const { wrapper } = render({
-      locations: [{ type: "house", location: { x: 10, y: 20 } }],
+      locations: [houseFactory({})],
     });
 
     const house = wrapper.find(".map-location").first();
@@ -56,7 +56,7 @@ describe("Map", () => {
 
   it("renders locations with 'school' type as blue", () => {
     const { wrapper } = render({
-      locations: [{ type: "school", location: { x: 10, y: 20 } }],
+      locations: [schoolFactory({})],
     });
 
     const house = wrapper.find(".map-location").first();
