@@ -20,7 +20,7 @@ export const HouseDetails = (props: HouseDetailsProps) => (
     <button aria-label="close" onClick={props.clearSelected}>
       Clear selection
     </button>
-    <h3>{props.selectedHouse.id}</h3>
+    <h3>{props.selectedHouse.address.streetName}</h3>
   </div>
 );
 

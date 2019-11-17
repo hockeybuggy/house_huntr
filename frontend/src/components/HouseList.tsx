@@ -15,7 +15,9 @@ const HouseListItem = (props: HouseListItemProps) => (
       "house-list-item--selected": props.isSelected,
     })}
   >
-    <div onClick={() => props.selectHouse()}>{props.house.type}</div>
+    <div onClick={() => props.selectHouse()}>
+      {props.house.address.streetName}
+    </div>
   </li>
 );
 
