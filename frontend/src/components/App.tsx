@@ -51,7 +51,11 @@ export const App = (props: {}) => {
           selectedHouse={selectedHouse}
         />
 
-        <HouseList houses={houses} selectHouse={selectHouse} />
+        <HouseList
+          houses={houses}
+          selectHouse={selectHouse}
+          selectedHouseId={selectedHouseId}
+        />
       </div>
     </div>
   );

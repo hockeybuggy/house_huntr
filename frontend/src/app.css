@@ -31,6 +31,11 @@
   overflow-y: scroll;
 }
 
+.house-list-item {}
+.house-list-item--selected {
+  color: red;
+}
+
 @media all and (min-width: 600px) {
   .map-outer-container { flex: 0 1 0; }
 
