@@ -27,9 +27,12 @@
 
 .house-list-container {
   min-width: 200px;
+  max-height: 400px;
+  overflow-y: scroll;
 }
 
 @media all and (min-width: 600px) {
   .map-outer-container { flex: 0 1 0; }
-  .house-list-container { flex: 1 0 0; }
+
+  .houses-container { flex: 1 0 0; }
 }

@@ -1,3 +1,5 @@
+import uuidv4 from "uuid";
+
 import { House, School } from "./types";
 import { WORLD_SIZE, MAP_LOCATION_SIZE } from "./constants";
 
@@ -15,6 +17,7 @@ export function houseFactory(overrides: Partial<House>): House {
   // Create a semi-random House, with optional overrides for any value.
   return {
     type: "house",
+    id: uuidv4(),
     location: {
       x: randomPosition(),
       y: randomPosition(),
