@@ -42,6 +42,7 @@
   "jest": {
     "setupFilesAfterEnv": [
       "./src/setupTests.ts"
-    ]
+    ],
+    "testPathIgnorePatterns": ["/node_modules/", "/dist/"]
   }
 }
