@@ -5,15 +5,17 @@ import { Map, MapProps } from "./Map";
 import { houseFactory, schoolFactory } from "./../factories";
 
 function render(props: MapProps) {
+  // TODO refactor to have defaults
   const wrapper = mount(<Map {...props} />);
   return { wrapper };
 }
 
 describe("Map", () => {
-  it("render an empty map when there are no locations", () => {
+  it("renders an empty map when there are no locations", () => {
     const { wrapper } = render({
       locations: [],
       selectedHouseId: null,
+      highlightedHouseId: null,
     });
 
     expect(wrapper.find(".map-container").exists()).toBe(true);
@@ -24,6 +26,7 @@ describe("Map", () => {
     const { wrapper } = render({
       locations: [houseFactory({ location: { x: 10, y: 20 } })],
       selectedHouseId: null,
+      highlightedHouseId: null,
     });
 
     const locations = wrapper.find(".map-location");
@@ -46,6 +49,7 @@ describe("Map", () => {
     const { wrapper } = render({
       locations: [houseFactory({})],
       selectedHouseId: null,
+      highlightedHouseId: null,
     });
 
     const house = wrapper.find(".map-location").first();
@@ -61,6 +65,7 @@ describe("Map", () => {
     const { wrapper } = render({
       locations: [schoolFactory({})],
       selectedHouseId: null,
+      highlightedHouseId: null,
     });
 
     const house = wrapper.find(".map-location").first();
@@ -78,6 +83,7 @@ describe("Map", () => {
     const { wrapper } = render({
       locations: [house],
       selectedHouseId: selectedHouseId,
+      highlightedHouseId: null,
     });
 
     const selected = wrapper.find(".map-location").first();
@@ -86,6 +92,25 @@ describe("Map", () => {
       left: expect.anything(),
       top: expect.anything(),
       backgroundColor: "red",
+    };
+    expect(selected.find("div").prop("style")).toEqual(expectedStyles);
+  });
+
+  it("renders selected locations as yellow", () => {
+    const house = houseFactory({});
+    const highlightedHouseId = house.id;
+    const { wrapper } = render({
+      locations: [house],
+      selectedHouseId: null,
+      highlightedHouseId: highlightedHouseId,
+    });
+
+    const selected = wrapper.find(".map-location").first();
+
+    const expectedStyles = {
+      left: expect.anything(),
+      top: expect.anything(),
+      backgroundColor: "yellow",
     };
     expect(selected.find("div").prop("style")).toEqual(expectedStyles);
   });

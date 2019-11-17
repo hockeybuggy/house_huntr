@@ -24,9 +24,16 @@ const schools = Array.from(Array(NUMBER_OF_SCHOOLS).keys()).map(() =>
 
 export const App = (props: {}) => {
   const [selectedHouseId, setSelectedHouseId] = useState<HouseId | null>(null);
+  const [highlightedHouseId, setHighlightedHouseId] = useState<HouseId | null>(
+    null
+  );
 
   const selectHouse = (id: HouseId): void => {
     setSelectedHouseId(id);
+  };
+
+  const highlightHouse = (id: HouseId): void => {
+    setHighlightedHouseId(id);
   };
 
   const locations = (houses as Array<Locateable>).concat(
@@ -43,7 +50,11 @@ export const App = (props: {}) => {
       <Header />
       <Controls />
 
-      <Map locations={locations} selectedHouseId={selectedHouseId} />
+      <Map
+        locations={locations}
+        selectedHouseId={selectedHouseId}
+        highlightedHouseId={highlightedHouseId}
+      />
 
       <div className="houses-container">
         <SelectedHouseDetails
@@ -55,6 +66,8 @@ export const App = (props: {}) => {
           houses={houses}
           selectHouse={selectHouse}
           selectedHouseId={selectedHouseId}
+          highlightHouse={highlightHouse}
+          highlightedHouseId={highlightedHouseId}
         />
       </div>
     </div>

@@ -5,6 +5,7 @@ import { House, HouseId, LocationTypes, Locateable } from "./../types";
 export interface MapProps {
   locations: Array<Locateable>;
   selectedHouseId: HouseId | null;
+  highlightedHouseId: HouseId | null;
 }
 
 export const Map = (props: MapProps) => (
@@ -14,11 +15,8 @@ export const Map = (props: MapProps) => (
         <MapLocation
           key={i}
           type={loc.type}
-          selected={
-            (loc as House).id
-              ? (loc as House).id === props.selectedHouseId
-              : false
-          }
+          selected={(loc as House).id === props.selectedHouseId}
+          highlighted={(loc as House).id === props.highlightedHouseId}
           x={loc.location.x}
           y={loc.location.y}
         />
@@ -30,6 +28,7 @@ export const Map = (props: MapProps) => (
 interface MapLocationProps {
   type: LocationTypes;
   selected: boolean;
+  highlighted: boolean;
   x: number;
   y: number;
 }
@@ -46,6 +45,10 @@ function getColorForLocationType(type: LocationTypes): string {
 
 export const MapLocation = (props: MapLocationProps) => {
   let color = getColorForLocationType(props.type);
+
+  if (props.highlighted) {
+    color = "yellow";
+  }
   if (props.selected) {
     color = "red";
   }
