@@ -2,29 +2,15 @@ import * as React from "react";
 
 import { Map } from "./Map";
 import { Locateable } from "./../types";
+import { houseFactory } from "./../factories";
 
 import "./../app.css";
 
-const houses = [
-  {
-    type: "house",
-    location: {
-      x: 10.0,
-      y: 10.0,
-    },
-    num_bedrooms: 4,
-    num_bathrooms: 2,
-  },
-  {
-    type: "house",
-    location: {
-      x: 20.0,
-      y: 20.0,
-    },
-    num_bedrooms: 3,
-    num_bathrooms: 1,
-  },
-];
+const NUMBER_OF_HOUSES = 10;
+
+const houses = Array.from(Array(NUMBER_OF_HOUSES).keys()).map(() =>
+  houseFactory({})
+);
 
 const schools = [
   {

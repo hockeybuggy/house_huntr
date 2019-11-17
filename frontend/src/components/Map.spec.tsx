@@ -2,6 +2,7 @@ import { mount } from "enzyme";
 import * as React from "react";
 
 import { Map, MapProps } from "./Map";
+import { houseFactory } from "./../factories";
 
 function render(props: MapProps) {
   const wrapper = mount(<Map {...props} />);
@@ -20,7 +21,7 @@ describe("Map", () => {
 
   it("renders a location with a className and positioning", () => {
     const { wrapper } = render({
-      locations: [{ type: "house", location: { x: 10, y: 20 } }],
+      locations: [houseFactory({ location: { x: 10, y: 20 } })],
     });
 
     const locations = wrapper.find(".map-location");

@@ -1,13 +1,14 @@
 
 .map-container {
   background-color: grey;
+  /* These sizes should match the `WORLD_SIZE` const */
   height: 400px;
   width: 400px;
 }
 
 .map-location {
-  background-color: green;
+  position: relative;
+  /* These sizes should match the `MAP_LOCATION_SIZE` const */
   height: 5px;
   width: 5px;
-  position: relative;
 }
