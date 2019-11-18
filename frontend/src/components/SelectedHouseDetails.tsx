@@ -21,6 +21,14 @@ export const HouseDetails = (props: HouseDetailsProps) => (
       Clear selection
     </button>
     <h3>{props.selectedHouse.address.streetName}</h3>
+    <p>
+      <strong>{"Number of bedrooms:"}</strong>
+      {props.selectedHouse.num_bedrooms}
+    </p>
+    <p>
+      <strong>{"Number of bathrooms:"}</strong>
+      {props.selectedHouse.num_bathrooms}
+    </p>
   </div>
 );
 

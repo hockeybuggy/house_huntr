@@ -11,7 +11,9 @@
 }
 
 .map-container {
-  background-color: grey;
+  border: solid;
+  border-width: thin;
+  background-color: lightgrey;
   position: relative;
   /* These sizes should match the `WORLD_SIZE` const */
   height: 400px;
@@ -25,15 +27,33 @@
   width: 5px;
 }
 
+.selected-house-details-container {
+  padding: 1em;
+  border: solid;
+  border-width: thin;
+}
+
 .house-list-container {
   min-width: 200px;
   max-height: 400px;
   overflow-y: scroll;
 }
 
-.house-list-item {}
+.house-list {
+  padding-left: 1em;
+}
+
+.house-list-item {
+  list-style: none;
+}
+.house-list-item:nth-child(even) {
+  background-color: lightgrey;
+}
 .house-list-item--selected {
   color: red;
+}
+.house-list-item:hover {
+  color: grey;
 }
 
 @media all and (min-width: 600px) {

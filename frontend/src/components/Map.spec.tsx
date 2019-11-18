@@ -96,7 +96,7 @@ describe("Map", () => {
     expect(selected.find("div").prop("style")).toEqual(expectedStyles);
   });
 
-  it("renders selected locations as yellow", () => {
+  it("renders selected locations as orange", () => {
     const house = houseFactory({});
     const highlightedHouseId = house.id;
     const { wrapper } = render({
@@ -110,7 +110,7 @@ describe("Map", () => {
     const expectedStyles = {
       left: expect.anything(),
       top: expect.anything(),
-      backgroundColor: "yellow",
+      backgroundColor: "orange",
     };
     expect(selected.find("div").prop("style")).toEqual(expectedStyles);
   });

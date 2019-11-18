@@ -47,7 +47,7 @@ export const MapLocation = (props: MapLocationProps) => {
   let color = getColorForLocationType(props.type);
 
   if (props.highlighted) {
-    color = "yellow";
+    color = "orange";
   }
   if (props.selected) {
     color = "red";
