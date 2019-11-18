@@ -67,7 +67,6 @@ export const App = (props: {}) => {
           selectHouse={selectHouse}
           selectedHouseId={selectedHouseId}
           highlightHouse={highlightHouse}
-          highlightedHouseId={highlightedHouseId}
         />
       </div>
     </div>

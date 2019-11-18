@@ -10,7 +10,6 @@ function render(givenProps: Partial<HouseListProps>) {
     selectHouse: () => {},
     selectedHouseId: null,
     highlightHouse: () => {},
-    highlightedHouseId: null,
   };
   const props = {
     ...defaultProps,

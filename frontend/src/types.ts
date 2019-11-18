@@ -18,3 +18,14 @@ export interface House extends Locateable {
 export interface School extends Locateable {
   type: "school";
 }
+
+export type ConstraintId = string;
+
+export type ConstraintTypes = "bedrooms" | "bathroom";
+export type ConstraintOperator = "<" | "<=" | "=" | ">=" | ">";
+
+export interface Constraint {
+  type: ConstraintTypes;
+  operator: ConstraintOperator;
+  value: number;
+}
