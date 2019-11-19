@@ -1,16 +1,16 @@
 import { mount } from "enzyme";
 import * as React from "react";
 
-import { Map, MapProps } from "./Map";
+import { WorldMap, WorldMapProps } from "./WorldMap";
 import { houseFactory, schoolFactory } from "./../factories";
 
-function render(props: MapProps) {
+function render(props: WorldMapProps) {
   // TODO refactor to have defaults
-  const wrapper = mount(<Map {...props} />);
+  const wrapper = mount(<WorldMap {...props} />);
   return { wrapper };
 }
 
-describe("Map", () => {
+describe("WorldMap", () => {
   it("renders an empty map when there are no locations", () => {
     const { wrapper } = render({
       locations: [],

@@ -2,17 +2,17 @@ import * as React from "react";
 
 import { House, HouseId, LocationTypes, Locateable } from "./../types";
 
-export interface MapProps {
+export interface WorldMapProps {
   locations: Array<Locateable>;
   selectedHouseId: HouseId | null;
   highlightedHouseId: HouseId | null;
 }
 
-export const Map = (props: MapProps) => (
+export const WorldMap = (props: WorldMapProps) => (
   <div className="map-outer-container">
     <div className="map-container">
       {props.locations.map((loc, i) => (
-        <MapLocation
+        <WorldMapLocation
           key={i}
           type={loc.type}
           selected={(loc as House).id === props.selectedHouseId}
@@ -25,7 +25,7 @@ export const Map = (props: MapProps) => (
   </div>
 );
 
-interface MapLocationProps {
+interface WorldMapLocationProps {
   type: LocationTypes;
   selected: boolean;
   highlighted: boolean;
@@ -43,7 +43,7 @@ function getColorForLocationType(type: LocationTypes): string {
   throw Error(`Non exaustive match for location color ${type}`);
 }
 
-export const MapLocation = (props: MapLocationProps) => {
+export const WorldMapLocation = (props: WorldMapLocationProps) => {
   let color = getColorForLocationType(props.type);
 
   if (props.highlighted) {

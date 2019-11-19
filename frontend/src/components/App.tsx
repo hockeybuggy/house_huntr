@@ -8,7 +8,7 @@ import { houseFactory, schoolFactory } from "./../factories";
 import { Controls } from "./Controls";
 import { Header } from "./Header";
 import { HouseList } from "./HouseList";
-import { Map } from "./Map";
+import { WorldMap } from "./WorldMap";
 import { SelectedHouseDetails } from "./SelectedHouseDetails";
 
 const NUMBER_OF_HOUSES = 31;
@@ -50,7 +50,7 @@ export const App = (props: {}) => {
       <Header />
       <Controls />
 
-      <Map
+      <WorldMap
         locations={locations}
         selectedHouseId={selectedHouseId}
         highlightedHouseId={highlightedHouseId}
