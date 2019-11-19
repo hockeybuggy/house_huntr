@@ -4,8 +4,16 @@ import * as React from "react";
 import { WorldMap, WorldMapProps } from "./WorldMap";
 import { houseFactory, schoolFactory } from "./../factories";
 
-function render(props: WorldMapProps) {
-  // TODO refactor to have defaults
+function render(givenProps: Partial<WorldMapProps>) {
+  const defaultProps: WorldMapProps = {
+    locations: [],
+    selectedHouseId: null,
+    highlightedHouseId: null,
+  };
+  const props = {
+    ...defaultProps,
+    ...givenProps,
+  };
   const wrapper = mount(<WorldMap {...props} />);
   return { wrapper };
 }
@@ -14,8 +22,6 @@ describe("WorldMap", () => {
   it("renders an empty map when there are no locations", () => {
     const { wrapper } = render({
       locations: [],
-      selectedHouseId: null,
-      highlightedHouseId: null,
     });
 
     expect(wrapper.find(".map-container").exists()).toBe(true);
@@ -25,8 +31,6 @@ describe("WorldMap", () => {
   it("renders a location with a className and positioning", () => {
     const { wrapper } = render({
       locations: [houseFactory({ location: { x: 10, y: 20 } })],
-      selectedHouseId: null,
-      highlightedHouseId: null,
     });
 
     const locations = wrapper.find(".map-location");
@@ -48,8 +52,6 @@ describe("WorldMap", () => {
   it("renders locations with 'house' type as green", () => {
     const { wrapper } = render({
       locations: [houseFactory({})],
-      selectedHouseId: null,
-      highlightedHouseId: null,
     });
 
     const house = wrapper.find(".map-location").first();
@@ -64,8 +66,6 @@ describe("WorldMap", () => {
   it("renders locations with 'school' type as blue", () => {
     const { wrapper } = render({
       locations: [schoolFactory({})],
-      selectedHouseId: null,
-      highlightedHouseId: null,
     });
 
     const house = wrapper.find(".map-location").first();
@@ -83,7 +83,6 @@ describe("WorldMap", () => {
     const { wrapper } = render({
       locations: [house],
       selectedHouseId: selectedHouseId,
-      highlightedHouseId: null,
     });
 
     const selected = wrapper.find(".map-location").first();
@@ -101,7 +100,6 @@ describe("WorldMap", () => {
     const highlightedHouseId = house.id;
     const { wrapper } = render({
       locations: [house],
-      selectedHouseId: null,
       highlightedHouseId: highlightedHouseId,
     });
 
