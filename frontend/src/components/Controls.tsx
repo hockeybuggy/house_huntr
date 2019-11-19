@@ -1,7 +1,58 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useState } from "react";
 import uuidv4 from "uuid";
 
 import { ConstraintId, Constraint } from "./../types";
+
+interface ConstraintFormProps {}
+const ConstraintForm = (props: ConstraintFormProps) => {
+  const operators = ["<", "<=", "=", ">=", ">"];
+
+  const [selectedOperator, setSelectedOperator] = useState("=");
+  return (
+    <div>
+      <form onSubmit={() => {}}>
+        <label htmlFor="constraint-form-type-select">Type of contraint:</label>
+        <select name="types" id="constraint-form-type-select">
+          <option>{"Number of Bedrooms"}</option>
+          <option>{"Number of Bathrooms"}</option>
+        </select>
+
+        <label htmlFor="constraint-form-operator-select">Operator:</label>
+        <select
+          name="types"
+          id="constraint-form-operator-select"
+          value={selectedOperator}
+          onChange={event => {
+            setSelectedOperator(event.target.value);
+          }}
+        >
+          {operators.map((operator, i) => {
+            return (
+              <option key={i} value={operator}>
+                {operator}
+              </option>
+            );
+          })}
+        </select>
+
+        <label htmlFor="constraint-form-operator-select">Value:</label>
+        <input
+          type="range"
+          id="constraint-form-value-input"
+          min={1}
+          max={5}
+        ></input>
+      </form>
+      <button
+        aria-label="Apply. Finish editing constraint"
+        id="constraint-form-submit"
+        onClick={() => {}}
+      >
+        Apply
+      </button>
+    </div>
+  );
+};
 
 interface ConstraintListItemProps {
   constraint: Constraint;
@@ -85,25 +136,7 @@ export const Controls = (props: ControlsProps) => {
         />
       ))}
 
-      <form>
-        <label htmlFor="constraint-type-select">Type of contraint:</label>
-        <select name="types" id="constraint-type-select">
-          <option>{"Number of Bedrooms"}</option>
-          <option>{"Number of Bathrooms"}</option>
-        </select>
-
-        <label htmlFor="constraint-operator-select">Operator:</label>
-        <select name="types" id="constraint-operator-select">
-          <option>{"<"}</option>
-          <option>{"<="}</option>
-          <option>{"="}</option>
-          <option>{">="}</option>
-          <option>{">"}</option>
-        </select>
-
-        <label htmlFor="constraint-operator-select">Value:</label>
-        <input type="range" id="constraint-value-input" min={1} max={5}></input>
-      </form>
+      <ConstraintForm />
 
       <button
         id="add-constraint"
