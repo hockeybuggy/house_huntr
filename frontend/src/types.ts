@@ -26,6 +26,7 @@ export type ConstraintOperator = "<" | "<=" | "=" | ">=" | ">";
 
 export interface Constraint {
   type: ConstraintTypes;
+  id: ConstraintId;
   operator: ConstraintOperator;
   value: number;
 }

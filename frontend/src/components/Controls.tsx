@@ -1,21 +1,27 @@
 import React, { useReducer } from "react";
 import uuidv4 from "uuid";
 
-import { Constraint } from "./../types";
+import { ConstraintId, Constraint } from "./../types";
 
-interface ConstraintProps {
+interface ConstraintListItemProps {
   constraint: Constraint;
   removeConstraint: () => void;
 }
-const ConstraintList = (props: ConstraintProps) => {
+const ConstraintListItem = (props: ConstraintListItemProps) => {
   return (
-    <div className="constraint">
+    <div className="constraint-list-item">
       <p>
         {props.constraint.type}
         {props.constraint.operator}
         {props.constraint.value}
       </p>
-      <button onClick={() => props.removeConstraint()}>remove</button>
+      <button
+        className="remove-constraint-list-item"
+        aria-label="Remove this constraint"
+        onClick={() => props.removeConstraint()}
+      >
+        remove
+      </button>
     </div>
   );
 };
@@ -27,44 +33,54 @@ enum Actions {
 
 type ActionType =
   | { type: Actions.AddConstraint; constraint: Constraint }
-  | { type: Actions.RemoveConstraint; constraintIndex: number };
+  | { type: Actions.RemoveConstraint; constraintId: ConstraintId };
 
 interface ControlsState {
-  constraints: Array<Constraint>;
+  constraints: Map<ConstraintId, Constraint>;
 }
 
-const initialState: ControlsState = {
-  constraints: [],
-};
+function initializeState(): ControlsState {
+  return { constraints: new Map() };
+}
 
 function reducer(state: ControlsState, action: ActionType): ControlsState {
-  console.log(state, action);
   switch (action.type) {
     case Actions.AddConstraint:
-      return { constraints: state.constraints.concat([action.constraint]) };
+      return {
+        constraints: state.constraints.set(
+          action.constraint.id,
+          action.constraint
+        ),
+      };
     case Actions.RemoveConstraint:
       return {
-        constraints: state.constraints.splice(action.constraintIndex, 1),
+        constraints: (() => {
+          state.constraints.delete(action.constraintId);
+          return state.constraints;
+        })(),
       };
     default:
       throw new Error("Not exaustive reducer");
   }
 }
 
-interface ControlsProps {}
+export interface ControlsProps {}
 
 export const Controls = (props: ControlsProps) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, null, initializeState);
 
   return (
     <div className="controls-container">
       <p>Refine your search by adding contraints to your house search</p>
-      {state.constraints.map((constraint, i) => (
-        <ConstraintList
-          key={i}
+      {Array.from(state.constraints.values()).map(constraint => (
+        <ConstraintListItem
+          key={constraint.id}
           constraint={constraint}
           removeConstraint={() =>
-            dispatch({ type: Actions.RemoveConstraint, constraintIndex: i })
+            dispatch({
+              type: Actions.RemoveConstraint,
+              constraintId: constraint.id,
+            })
           }
         />
       ))}
@@ -90,10 +106,17 @@ export const Controls = (props: ControlsProps) => {
       </form>
 
       <button
+        id="add-constraint"
+        aria-label="Add constraint"
         onClick={() => {
           dispatch({
             type: Actions.AddConstraint,
-            constraint: { type: "bedrooms", operator: "=", value: 3 },
+            constraint: {
+              type: "bedrooms",
+              id: uuidv4(),
+              operator: "=",
+              value: 3,
+            },
           });
         }}
       >
