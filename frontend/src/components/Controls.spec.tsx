@@ -16,9 +16,6 @@ class ControlsTestHelper {
       ...givenProps,
     };
     this.wrapper = mount(<Controls {...props} />);
-    this.wrapper.mount();
-    this.wrapper.update();
-    expect(this.wrapper.find(".constraint-list-item").length).toBe(0);
   }
 
   clickAddContraint(): this {
