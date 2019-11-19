@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useReducer } from "react";
 import uuidv4 from "uuid";
 
 import { Constraint } from "./../types";
@@ -20,28 +20,52 @@ const ConstraintList = (props: ConstraintProps) => {
   );
 };
 
+enum Actions {
+  AddConstraint,
+  RemoveConstraint,
+}
+
+type ActionType =
+  | { type: Actions.AddConstraint; constraint: Constraint }
+  | { type: Actions.RemoveConstraint; constraintIndex: number };
+
+interface ControlsState {
+  constraints: Array<Constraint>;
+}
+
+const initialState: ControlsState = {
+  constraints: [],
+};
+
+function reducer(state: ControlsState, action: ActionType): ControlsState {
+  console.log(state, action);
+  switch (action.type) {
+    case Actions.AddConstraint:
+      return { constraints: state.constraints.concat([action.constraint]) };
+    case Actions.RemoveConstraint:
+      return {
+        constraints: state.constraints.splice(action.constraintIndex, 1),
+      };
+    default:
+      throw new Error("Not exaustive reducer");
+  }
+}
+
 interface ControlsProps {}
 
 export const Controls = (props: ControlsProps) => {
-  const [constraints, setContraints] = useState<Array<Constraint>>([]);
-  const constraintsRef = useRef();
-
-  useEffect(() => {
-    constraintsRef.current = constraints;
-  });
-
-  const removeNthElementFromConstrints = (i: number): void => {
-    setContraints(() => constraintsRef.current.splice(i, 1));
-  };
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
     <div className="controls-container">
       <p>Refine your search by adding contraints to your house search</p>
-      {constraints.map((constraint, i) => (
+      {state.constraints.map((constraint, i) => (
         <ConstraintList
           key={i}
           constraint={constraint}
-          removeConstraint={() => removeNthElementFromConstrints(i)}
+          removeConstraint={() =>
+            dispatch({ type: Actions.RemoveConstraint, constraintIndex: i })
+          }
         />
       ))}
 
@@ -67,15 +91,10 @@ export const Controls = (props: ControlsProps) => {
 
       <button
         onClick={() => {
-          setContraints(
-            constraints.concat([
-              {
-                type: "bedrooms",
-                operator: "=",
-                value: 3,
-              },
-            ])
-          );
+          dispatch({
+            type: Actions.AddConstraint,
+            constraint: { type: "bedrooms", operator: "=", value: 3 },
+          });
         }}
       >
         Add constraint
