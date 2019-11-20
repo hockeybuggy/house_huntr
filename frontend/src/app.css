@@ -56,6 +56,10 @@
   color: grey;
 }
 
+.constraint-list-item:nth-child(even) {
+  background-color: lightgrey;
+}
+
 @media all and (min-width: 600px) {
   .map-outer-container { flex: 0 1 0; }
 

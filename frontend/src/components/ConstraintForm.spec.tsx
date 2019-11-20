@@ -5,6 +5,8 @@ import { ConstraintForm, ConstraintFormProps } from "./ConstraintForm";
 
 function render(givenProps: Partial<ConstraintFormProps>) {
   const defaultProps = {
+    // constraint: constraintFactory({}),
+    constraint: {},
     onSubmit: () => {},
   };
   const props = {

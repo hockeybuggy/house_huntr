@@ -8,7 +8,8 @@ interface ConstraintListItemProps {
   constraint: Constraint;
   isEditing: boolean;
   removeConstraint: () => void;
-  editConstraint: (constraint: Constraint) => void;
+  editConstraint: (constraintId: ConstraintId) => void;
+  applyEdits: (constraint: Constraint) => void;
 }
 
 const ConstraintListItem = (props: ConstraintListItemProps) => {
@@ -17,7 +18,7 @@ const ConstraintListItem = (props: ConstraintListItemProps) => {
       {props.isEditing ? (
         <ConstraintForm
           constraint={props.constraint}
-          onSubmit={props.editConstraint}
+          onSubmit={props.applyEdits}
         />
       ) : (
         <React.Fragment>
@@ -33,6 +34,13 @@ const ConstraintListItem = (props: ConstraintListItemProps) => {
           >
             remove
           </button>
+          <button
+            className="edit-constraint-list-item"
+            aria-label="Edit this constraint"
+            onClick={() => props.editConstraint(props.constraint.id)}
+          >
+            edit
+          </button>
         </React.Fragment>
       )}
     </div>
@@ -43,12 +51,14 @@ enum Actions {
   AddConstraint,
   RemoveConstraint,
   EditConstraint,
+  ApplyConstraintEdits,
 }
 
 type ActionType =
   | { type: Actions.AddConstraint; constraint: Constraint }
   | { type: Actions.RemoveConstraint; constraintId: ConstraintId }
-  | { type: Actions.EditConstraint; constraint: Constraint };
+  | { type: Actions.EditConstraint; constraintId: ConstraintId }
+  | { type: Actions.ApplyConstraintEdits; constraint: Constraint };
 
 interface ControlsState {
   editingId: ConstraintId | null;
@@ -80,6 +90,8 @@ function reducer(state: ControlsState, action: ActionType): ControlsState {
         })(),
       });
     case Actions.EditConstraint:
+      return Object.assign({}, state, { editingId: action.constraintId });
+    case Actions.ApplyConstraintEdits:
       return Object.assign({}, state, {
         editingId: null,
         constraints: (() => {
@@ -111,9 +123,15 @@ export const Controls = (props: ControlsProps) => {
               constraintId: constraint.id,
             })
           }
-          editConstraint={(value: Constraint) =>
+          editConstraint={(value: ConstraintId) => {
             dispatch({
               type: Actions.EditConstraint,
+              constraintId: value,
+            });
+          }}
+          applyEdits={(value: Constraint) =>
+            dispatch({
+              type: Actions.ApplyConstraintEdits,
               constraint: value,
             })
           }
@@ -123,6 +141,7 @@ export const Controls = (props: ControlsProps) => {
       <button
         id="add-constraint"
         aria-label="Add constraint"
+        disabled={state.editingId !== null}
         onClick={() => {
           dispatch({
             type: Actions.AddConstraint,

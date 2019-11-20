@@ -75,7 +75,7 @@ export const ConstraintForm = (props: ConstraintFormProps) => {
           max={5}
         ></input>
 
-        <input id="constraint-form-submit" type="submit" value="Apply" />
+        <input className="constraint-form-submit" type="submit" value="Apply" />
       </form>
     </div>
   );
