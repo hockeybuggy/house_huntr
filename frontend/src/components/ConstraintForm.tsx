@@ -4,7 +4,7 @@ import { ConstraintId, Constraint } from "./../types";
 
 export interface ConstraintFormProps {
   // I am thinking that this form will be used as an "edit state" for "constraints".
-  // id: ConstraintId;
+  constraint: Constraint;
   onSubmit: (constraint: Constraint) => void;
 }
 
@@ -21,10 +21,10 @@ export const ConstraintForm = (props: ConstraintFormProps) => {
     event.preventDefault();
     // TODO unstub this
     props.onSubmit({
-      id: "",
-      type: "bedrooms",
-      operator: "=",
-      value: 1,
+      id: props.constraint.id,
+      type: props.constraint.type,
+      operator: props.constraint.operator,
+      value: props.constraint.value,
     });
   };
 

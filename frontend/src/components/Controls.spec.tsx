@@ -35,31 +35,37 @@ class ControlsTestHelper {
 describe("Controls", () => {
   it("renders an empty list list of constraints to start with", () => {
     const { wrapper } = new ControlsTestHelper({});
-    expect(wrapper.find(".controls-container").exists()).toBe(true);
-    expect(wrapper.find(".constraint-list-item").exists()).toBe(false);
+    expect(wrapper.find(".controls-container").exists()).toEqual(true);
+    expect(wrapper.find(".constraint-list-item").exists()).toEqual(false);
   });
 
-  it("adds a new bedroom constraint when the 'add-constraint' button is clicked", () => {
+  it("adds a new constraint when the 'Add constraint' button is clicked", () => {
     const helper = new ControlsTestHelper({});
 
-    expect(helper.wrapper.find(".constraint-list-item").length).toBe(0);
+    expect(helper.wrapper.find(".constraint-list-item").length).toEqual(0);
+    expect(helper.wrapper.find(".constraint-form").exists()).toBe(true);
+    expect(helper.wrapper.find("#add-constraint").prop("disabled")).toBe(false);
 
     helper.clickAddContraint();
 
-    expect(helper.wrapper.find(".constraint-list-item").length).toBe(1);
+    expect(helper.wrapper.find(".constraint-list-item").length).toEqual(1);
+    // The new constraint is in editable
+    expect(helper.wrapper.find(".constraint-form").exists()).toBe(true);
+    // The disable
+    expect(helper.wrapper.find("#add-constraint").prop("isDisabled")).toBe(
+      false
+    );
+  });
 
-    helper.clickAddContraint();
-
-    expect(helper.wrapper.find(".constraint-list-item").length).toBe(2);
+  it("", () => {
+    const helper = new ControlsTestHelper({});
   });
 
   it("removes constraints when that constraint list item's 'remove' button is clicked", () => {
     // Create some controls with two constraints
-    const helper = new ControlsTestHelper({})
-      .clickAddContraint()
-      .clickAddContraint();
+    const helper = new ControlsTestHelper({}).clickAddContraint();
 
-    expect(helper.wrapper.find(".constraint-list-item").length).toBe(2);
+    expect(helper.wrapper.find(".constraint-list-item").length).toBe(1);
 
     helper.clickRemoveConstraintListItem(1);
 
