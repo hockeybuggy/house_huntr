@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 
-import { ConstraintId, Constraint } from "./../types";
+import {
+  ConstraintId,
+  ConstraintTypes,
+  ConstraintOperator,
+  Constraint,
+} from "./../types";
 
 export interface ConstraintFormProps {
   // I am thinking that this form will be used as an "edit state" for "constraints".
@@ -8,23 +13,25 @@ export interface ConstraintFormProps {
   onSubmit: (constraint: Constraint) => void;
 }
 
-const constraintTypes = ["Number of Bedrooms", "Number of Bathrooms"];
+const constraintTypes = ["bedrooms", "bathrooms"];
 const operators = ["<", "<=", "=", ">=", ">"];
 
 export const ConstraintForm = (props: ConstraintFormProps) => {
-  const [selectedOperator, setSelectedOperator] = useState(operators[2]);
-  const [selectedConstraintTypes, setSelectedConstraintTypes] = useState(
-    constraintTypes[0]
+  const [selectedOperator, setSelectedOperator] = useState(
+    props.constraint.operator
   );
+  const [selectedConstraintType, setSelectedConstraintType] = useState(
+    props.constraint.type
+  );
+  const [selectedValue, setSelectedValue] = useState(props.constraint.value);
 
   const onSubmit = (event: any) => {
     event.preventDefault();
-    // TODO unstub this
     props.onSubmit({
       id: props.constraint.id,
-      type: props.constraint.type,
-      operator: props.constraint.operator,
-      value: props.constraint.value,
+      type: selectedConstraintType,
+      operator: selectedOperator,
+      value: selectedValue,
     });
   };
 
@@ -35,9 +42,9 @@ export const ConstraintForm = (props: ConstraintFormProps) => {
         <select
           name="types"
           id="constraint-form-type-select"
-          value={selectedConstraintTypes}
+          value={selectedConstraintType}
           onChange={event => {
-            setSelectedConstraintTypes(event.target.value);
+            setSelectedConstraintType(event.target.value as ConstraintTypes);
           }}
         >
           {constraintTypes.map((constraintType, i) => {
@@ -55,7 +62,7 @@ export const ConstraintForm = (props: ConstraintFormProps) => {
           id="constraint-form-operator-select"
           value={selectedOperator}
           onChange={event => {
-            setSelectedOperator(event.target.value);
+            setSelectedOperator(event.target.value as ConstraintOperator);
           }}
         >
           {operators.map((operator, i) => {
@@ -67,10 +74,16 @@ export const ConstraintForm = (props: ConstraintFormProps) => {
           })}
         </select>
 
-        <label htmlFor="constraint-form-value-input">Value:</label>
+        <label htmlFor="constraint-form-value-input">
+          Value: {selectedValue}
+        </label>
         <input
           type="range"
           id="constraint-form-value-input"
+          value={selectedValue}
+          onChange={event => {
+            setSelectedValue(parseInt(event.target.value, 10));
+          }}
           min={1}
           max={5}
         ></input>
