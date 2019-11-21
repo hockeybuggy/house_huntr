@@ -115,4 +115,25 @@ describe("ConstraintForm", () => {
       Object.assign({}, constraint, { value: 2 })
     );
   });
+
+  it("calls the `onSubmit` callback with nothing changed when form is canceled", () => {
+    const constraint = constraintFactory({});
+    const onSubmitSpy = jest.fn();
+    const { wrapper } = render({
+      onSubmit: onSubmitSpy,
+      constraint: constraint,
+    });
+    expect(onSubmitSpy).not.toHaveBeenCalled();
+
+    act(() => {
+      wrapper.find("#constraint-form-value-input").prop("onChange")({
+        target: { value: 2 },
+      } as any);
+    });
+    wrapper.find(".constraint-form-cancel").simulate("click");
+
+    // Since we haven't changed any of the values in the form the constraint
+    // should be returned as is.
+    expect(onSubmitSpy).toHaveBeenCalledWith(constraint);
+  });
 });

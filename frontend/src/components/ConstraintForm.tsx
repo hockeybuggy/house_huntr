@@ -25,7 +25,7 @@ export const ConstraintForm = (props: ConstraintFormProps) => {
   );
   const [selectedValue, setSelectedValue] = useState(props.constraint.value);
 
-  const onSubmit = (event: any) => {
+  const onFormSubmit = (event: any) => {
     event.preventDefault();
     props.onSubmit({
       id: props.constraint.id,
@@ -37,7 +37,7 @@ export const ConstraintForm = (props: ConstraintFormProps) => {
 
   return (
     <div className="constraint-form">
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onFormSubmit}>
         <label htmlFor="constraint-form-type-select">Type of contraint:</label>
         <select
           name="types"
@@ -88,6 +88,13 @@ export const ConstraintForm = (props: ConstraintFormProps) => {
           max={5}
         ></input>
 
+        <button
+          className="constraint-form-cancel"
+          aria-label="Cancel editing"
+          onClick={() => props.onSubmit(props.constraint)}
+        >
+          Cancel
+        </button>
         <input className="constraint-form-submit" type="submit" value="Apply" />
       </form>
     </div>
