@@ -27,7 +27,7 @@ class ControlsTestHelper {
     this.wrapper
       .find(".constraint-form-submit")
       .at(index)
-      .simulate("click");
+      .simulate("submit");
     return this;
   }
 
@@ -63,14 +63,13 @@ describe("Controls", () => {
     expect(helper.wrapper.find("#add-constraint").prop("disabled")).toBe(true);
   });
 
-  fit("changes a constraints out of edit mode when the constraint list item's 'apply' button is clicked", () => {
+  it("changes a constraints out of edit mode when the constraint list item's 'apply' button is clicked", () => {
     const helper = new ControlsTestHelper({}).clickAddContraint();
 
     expect(helper.wrapper.find(".constraint-form").exists()).toEqual(true);
 
     helper.clickApplyConstraintListItem(0);
 
-    console.log(helper.wrapper.find(".constraint-form").debug());
     expect(helper.wrapper.find(".constraint-form").exists()).toEqual(false);
   });
 
@@ -83,6 +82,6 @@ describe("Controls", () => {
 
     helper.clickRemoveConstraintListItem(0);
 
-    expect(helper.wrapper.find(".constraint-list-item").length).toBe(1);
+    expect(helper.wrapper.find(".constraint-list-item").length).toBe(0);
   });
 });

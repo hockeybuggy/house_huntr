@@ -1,6 +1,6 @@
 import uuidv4 from "uuid";
 
-import { House, School } from "./types";
+import { Constraint, House, School } from "./types";
 import { WORLD_SIZE, MAP_LOCATION_SIZE } from "./constants";
 import { generateFakeAddressNameFromId } from "./utils";
 
@@ -12,6 +12,11 @@ function randomPosition(): number {
   return (
     Math.round(Math.random() * WORLD_SIZE) % (WORLD_SIZE - MAP_LOCATION_SIZE)
   );
+}
+
+function randomChoice<T>(choices: Array<T>): T {
+  // Returns a random element from within the given choices
+  return choices[Math.round(Math.random() * (choices.length - 1))];
 }
 
 export function houseFactory(overrides: Partial<House>): House {
@@ -45,6 +50,17 @@ export function schoolFactory(overrides: Partial<School>): School {
     address: {
       streetName: generateFakeAddressNameFromId(uuidv4()),
     },
+    ...overrides,
+  };
+}
+
+export function constraintFactory(overrides: Partial<Constraint>): Constraint {
+  // Create a semi-random Constraint, with optional overrides for any value.
+  return {
+    type: randomChoice(["bedrooms", "bathroom"]),
+    id: uuidv4(),
+    value: Math.round(Math.random() * 10) % 10,
+    operator: randomChoice(["<", "<=", "=", ">=", ">"]),
     ...overrides,
   };
 }
