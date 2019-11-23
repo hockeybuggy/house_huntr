@@ -80,6 +80,22 @@ function locationsReducer(
   switch (action.type) {
     case LocationActions.SelectHouse:
       return Object.assign({}, state, { selectedHouseId: action.houseId });
+    case LocationActions.SetHouses:
+      return Object.assign({}, state, {
+        houses: new Map(
+          action.houses.map(house => {
+            return [house.id, house];
+          })
+        ),
+      });
+    case LocationActions.SetSchools:
+      return Object.assign({}, state, {
+        schools: new Map(
+          action.schools.map(school => {
+            return [school.id, school];
+          })
+        ),
+      });
     default:
       return state;
   }

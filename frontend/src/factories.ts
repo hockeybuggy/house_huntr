@@ -41,14 +41,17 @@ export function houseFactory(overrides: Partial<House>): House {
 
 export function schoolFactory(overrides: Partial<School>): School {
   // Create a semi-random School, with optional overrides for any value.
+  const id = uuidv4();
+
   return {
     type: "school",
+    id: id,
     location: {
       x: randomPosition(),
       y: randomPosition(),
     },
     address: {
-      streetName: generateFakeAddressNameFromId(uuidv4()),
+      streetName: generateFakeAddressNameFromId(id),
     },
     ...overrides,
   };
