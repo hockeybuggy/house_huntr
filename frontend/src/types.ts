@@ -15,8 +15,11 @@ export interface House extends Locateable {
   num_bathrooms: number;
 }
 
+export type SchoolId = string;
+
 export interface School extends Locateable {
   type: "school";
+  id: SchoolId;
 }
 
 export type ConstraintId = string;

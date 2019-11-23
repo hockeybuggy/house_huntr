@@ -27,27 +27,13 @@ const schools = Array.from(Array(NUMBER_OF_SCHOOLS).keys()).map(() =>
 export const App = (props: {}) => {
   const [state, dispatch] = useReducer(reducer, null, initializeState);
 
-  const [selectedHouseId, setSelectedHouseId] = useState<HouseId | null>(null);
   const [highlightedHouseId, setHighlightedHouseId] = useState<HouseId | null>(
     null
   );
 
-  const selectHouse = (id: HouseId): void => {
-    setSelectedHouseId(id);
-  };
-
   const highlightHouse = (id: HouseId): void => {
     setHighlightedHouseId(id);
   };
-
-  const locations = (houses as Array<Locateable>).concat(
-    schools as Array<Locateable>
-  );
-
-  // TODO This isn't efficent to loop through the list like this. It would be
-  // better to structure "houses" as an indexable collection.
-  const selectedHouse: null | House =
-    houses.find(h => h.id === selectedHouseId) || null;
 
   return (
     <div className="app-container">
@@ -59,22 +45,25 @@ export const App = (props: {}) => {
       />
 
       <WorldMap
-        locations={locations}
-        selectedHouseId={selectedHouseId}
+        houses={state.locations.houses}
+        schools={state.locations.schools}
+        selectedHouseId={state.locations.selectedHouseId}
         highlightedHouseId={highlightedHouseId}
       />
 
       <div className="houses-container">
         <SelectedHouseDetails
-          clearSelected={setSelectedHouseId.bind(null)}
-          selectedHouse={selectedHouse}
+          selectedHouse={state.locations.houses.get(
+            state.locations.selectedHouseId
+          )}
+          dispatch={dispatch}
         />
 
         <HouseList
-          houses={houses}
-          selectHouse={selectHouse}
-          selectedHouseId={selectedHouseId}
+          houses={state.locations.houses}
+          selectedHouseId={state.locations.selectedHouseId}
           highlightHouse={highlightHouse}
+          dispatch={dispatch}
         />
       </div>
     </div>

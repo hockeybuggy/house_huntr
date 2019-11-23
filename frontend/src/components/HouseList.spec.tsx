@@ -3,11 +3,12 @@ import * as React from "react";
 
 import { HouseList, HouseListProps } from "./HouseList";
 import { houseFactory } from "./../factories";
+import { LocationActions } from "./../state/actions";
 
 function render(givenProps: Partial<HouseListProps>) {
   const defaultProps: HouseListProps = {
-    houses: [],
-    selectHouse: () => {},
+    houses: new Map(),
+    dispatch: () => {},
     selectedHouseId: null,
     highlightHouse: () => {},
   };
@@ -21,7 +22,7 @@ function render(givenProps: Partial<HouseListProps>) {
 
 describe("HouseList", () => {
   it("renders an empty list if there are no houses", () => {
-    const { wrapper } = render({ houses: [] });
+    const { wrapper } = render({ houses: new Map() });
     expect(wrapper.find(".house-list-container").exists()).toBe(true);
     expect(wrapper.find(".house-list").exists()).toBe(true);
     expect(wrapper.find(".house-list-item").length).toEqual(0);
@@ -29,12 +30,17 @@ describe("HouseList", () => {
 
   describe("HouseListItem", () => {
     it("renders houses as list items", () => {
-      const { wrapper } = render({
-        houses: [
-          houseFactory({ address: { streetName: "123 Fake Street" } }),
-          houseFactory({ address: { streetName: "123 Gefälschte Straße" } }),
-        ],
+      const house1 = houseFactory({
+        address: { streetName: "123 Fake Street" },
       });
+      const house2 = houseFactory({
+        address: { streetName: "123 Gefälschte Straße" },
+      });
+      const houses = new Map([
+        [house1.id, house1],
+        [house2.id, house2],
+      ]);
+      const { wrapper } = render({ houses: houses });
 
       expect(wrapper.find(".house-list-item").length).toEqual(2);
       const firstListItem = wrapper.find(".house-list-item").at(0);
@@ -45,9 +51,10 @@ describe("HouseList", () => {
 
     it("does not have the className 'house-list-item--selected' when not selected", () => {
       const house = houseFactory({});
+      const houses = new Map([[house.id, house]]);
 
       const { wrapper } = render({
-        houses: [house],
+        houses: houses,
         selectedHouseId: null,
       });
 
@@ -61,9 +68,10 @@ describe("HouseList", () => {
 
     it("has the className 'house-list-item--selected' when selected", () => {
       const house = houseFactory({});
+      const houses = new Map([[house.id, house]]);
 
       const { wrapper } = render({
-        houses: [house],
+        houses: houses,
         selectedHouseId: house.id,
       });
 
@@ -75,14 +83,15 @@ describe("HouseList", () => {
       ).toBe(true);
     });
 
-    it("calls the `selectHouse` callback when clicked", () => {
+    it("dispatchs a `selectHouse` action when a list item is clicked", () => {
       const house = houseFactory({});
-      const selectHouseSpy = jest.fn();
+      const houses = new Map([[house.id, house]]);
+      const dispatchSpy = jest.fn();
 
       const { wrapper } = render({
-        houses: [house],
+        houses: houses,
         selectedHouseId: null,
-        selectHouse: selectHouseSpy,
+        dispatch: dispatchSpy,
       });
 
       wrapper
@@ -90,15 +99,19 @@ describe("HouseList", () => {
         .first()
         .simulate("click");
 
-      expect(selectHouseSpy).toHaveBeenCalledWith(house.id);
+      expect(dispatchSpy).toHaveBeenCalledWith({
+        type: LocationActions.SelectHouse,
+        houseId: house.id,
+      });
     });
 
     it("calls a callback to highlight the house when the mouse enters", () => {
       const house = houseFactory({});
+      const houses = new Map([[house.id, house]]);
       const highlightHouseSpy = jest.fn();
 
       const { wrapper } = render({
-        houses: [house],
+        houses: houses,
         highlightHouse: highlightHouseSpy,
       });
 
@@ -114,10 +127,11 @@ describe("HouseList", () => {
 
     it("calls a callback to clear highlighting when the mouse leaves", () => {
       const house = houseFactory({});
+      const houses = new Map([[house.id, house]]);
       const highlightHouseSpy = jest.fn();
 
       const { wrapper } = render({
-        houses: [house],
+        houses: houses,
         highlightHouse: highlightHouseSpy,
       });
 

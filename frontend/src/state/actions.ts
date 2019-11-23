@@ -1,4 +1,4 @@
-import { Constraint, ConstraintId } from "./../types";
+import { Constraint, ConstraintId, HouseId } from "./../types";
 
 export enum ConstraintActions {
   AddConstraint,
@@ -7,8 +7,13 @@ export enum ConstraintActions {
   ApplyConstraintEdits,
 }
 
+export enum LocationActions {
+  SelectHouse,
+}
+
 export type ActionTypes =
   | { type: ConstraintActions.AddConstraint; constraint: Constraint }
   | { type: ConstraintActions.RemoveConstraint; constraintId: ConstraintId }
   | { type: ConstraintActions.EditConstraint; constraintId: ConstraintId }
-  | { type: ConstraintActions.ApplyConstraintEdits; constraint: Constraint };
+  | { type: ConstraintActions.ApplyConstraintEdits; constraint: Constraint }
+  | { type: LocationActions.SelectHouse; houseId: HouseId };

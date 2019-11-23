@@ -1,10 +1,11 @@
 import * as React from "react";
 
 import { House } from "./../types";
+import { ActionTypes, LocationActions } from "./../state/actions";
 
-interface SelectedHouseDetailsProps {
+export interface SelectedHouseDetailsProps {
+  dispatch: React.Dispatch<ActionTypes>;
   selectedHouse: House | null;
-  clearSelected: () => void;
 }
 
 export const SelectedHouseDetails = (props: SelectedHouseDetailsProps) => {
@@ -17,16 +18,24 @@ interface HouseDetailsProps extends SelectedHouseDetailsProps {
 
 export const HouseDetails = (props: HouseDetailsProps) => (
   <div className="selected-house-details-container">
-    <button aria-label="close" onClick={props.clearSelected}>
+    <button
+      aria-label="close"
+      onClick={() =>
+        props.dispatch({
+          type: LocationActions.SelectHouse,
+          houseId: null,
+        })
+      }
+    >
       Clear selection
     </button>
     <h3>{props.selectedHouse.address.streetName}</h3>
     <p>
-      <strong>{"Number of bedrooms:"}</strong>
+      <strong>{"Number of bedrooms: "}</strong>
       {props.selectedHouse.num_bedrooms}
     </p>
     <p>
-      <strong>{"Number of bathrooms:"}</strong>
+      <strong>{"Number of bathrooms: "}</strong>
       {props.selectedHouse.num_bathrooms}
     </p>
   </div>
