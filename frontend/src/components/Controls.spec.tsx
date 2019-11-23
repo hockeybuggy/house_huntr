@@ -1,7 +1,21 @@
 import { mount, ReactWrapper } from "enzyme";
-import * as React from "react";
+import React, { useReducer } from "react";
 
-import { Controls, ControlsProps } from "./Controls";
+import { Controls } from "./Controls";
+import { reducer, initializeState } from "./../state/reducers";
+
+const ControlsWithState = () => {
+  // This component exists just to have a realistic store state without testing
+  // the whole `App`
+  const [state, dispatch] = useReducer(reducer, null, initializeState);
+  return (
+    <Controls
+      constraints={state.controls.constraints}
+      editingId={state.controls.editingId}
+      dispatch={dispatch}
+    />
+  );
+};
 
 class ControlsTestHelper {
   // This class allows these tests to have a declarative interface since I
@@ -9,13 +23,8 @@ class ControlsTestHelper {
   // like to have the many repeated steps encapsulated.
   public wrapper: ReactWrapper;
 
-  constructor(givenProps: Partial<ControlsProps>) {
-    const defaultProps: ControlsProps = {};
-    const props = {
-      ...defaultProps,
-      ...givenProps,
-    };
-    this.wrapper = mount(<Controls {...props} />);
+  constructor() {
+    this.wrapper = mount(<ControlsWithState />);
   }
 
   clickAddContraint(): this {
@@ -42,13 +51,13 @@ class ControlsTestHelper {
 
 describe("Controls", () => {
   it("renders an empty list list of constraints to start with", () => {
-    const { wrapper } = new ControlsTestHelper({});
+    const { wrapper } = new ControlsTestHelper();
     expect(wrapper.find(".controls-container").exists()).toEqual(true);
     expect(wrapper.find(".constraint-list-item").exists()).toEqual(false);
   });
 
   it("adds a new constraint when the 'Add constraint' button is clicked", () => {
-    const helper = new ControlsTestHelper({});
+    const helper = new ControlsTestHelper();
 
     expect(helper.wrapper.find(".constraint-list-item").length).toEqual(0);
     expect(helper.wrapper.find(".constraint-form").exists()).toBe(false);
@@ -64,7 +73,7 @@ describe("Controls", () => {
   });
 
   it("changes a constraints out of edit mode when the constraint list item's 'apply' button is clicked", () => {
-    const helper = new ControlsTestHelper({}).clickAddContraint();
+    const helper = new ControlsTestHelper().clickAddContraint();
 
     expect(helper.wrapper.find(".constraint-form").exists()).toEqual(true);
 
@@ -74,7 +83,7 @@ describe("Controls", () => {
   });
 
   it("removes constraints when that constraint list item's 'remove' button is clicked", () => {
-    const helper = new ControlsTestHelper({})
+    const helper = new ControlsTestHelper()
       .clickAddContraint()
       .clickApplyConstraintListItem(0);
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useReducer, useState } from "react";
 
 import "./../app.css";
 
@@ -10,6 +10,8 @@ import { Header } from "./Header";
 import { HouseList } from "./HouseList";
 import { WorldMap } from "./WorldMap";
 import { SelectedHouseDetails } from "./SelectedHouseDetails";
+
+import { reducer, initializeState } from "./../state/reducers";
 
 const NUMBER_OF_HOUSES = 31;
 const NUMBER_OF_SCHOOLS = 3;
@@ -23,6 +25,8 @@ const schools = Array.from(Array(NUMBER_OF_SCHOOLS).keys()).map(() =>
 );
 
 export const App = (props: {}) => {
+  const [state, dispatch] = useReducer(reducer, null, initializeState);
+
   const [selectedHouseId, setSelectedHouseId] = useState<HouseId | null>(null);
   const [highlightedHouseId, setHighlightedHouseId] = useState<HouseId | null>(
     null
@@ -48,7 +52,11 @@ export const App = (props: {}) => {
   return (
     <div className="app-container">
       <Header />
-      <Controls />
+      <Controls
+        constraints={state.controls.constraints}
+        editingId={state.controls.editingId}
+        dispatch={dispatch}
+      />
 
       <WorldMap
         locations={locations}
