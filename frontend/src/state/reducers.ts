@@ -17,6 +17,7 @@ interface LocationsState {
   houses: Map<HouseId, House>;
   schools: Map<SchoolId, School>;
   selectedHouseId: HouseId | null;
+  highlightedHouseId: HouseId | null;
 }
 
 interface State {
@@ -34,6 +35,7 @@ export function initializeState(): State {
       houses: new Map(),
       schools: new Map(),
       selectedHouseId: null,
+      highlightedHouseId: null,
     },
   };
 }
@@ -80,6 +82,8 @@ function locationsReducer(
   switch (action.type) {
     case LocationActions.SelectHouse:
       return Object.assign({}, state, { selectedHouseId: action.houseId });
+    case LocationActions.HighlightHouse:
+      return Object.assign({}, state, { highlightedHouseId: action.houseId });
     case LocationActions.SetHouses:
       return Object.assign({}, state, {
         houses: new Map(

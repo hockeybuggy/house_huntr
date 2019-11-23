@@ -9,6 +9,7 @@ export enum ConstraintActions {
 
 export enum LocationActions {
   SelectHouse = "SelectHouse",
+  HighlightHouse = "HighlightHouse",
   SetHouses = "SetHouses",
   SetSchools = "SetSchools",
 }
@@ -19,5 +20,6 @@ export type ActionTypes =
   | { type: ConstraintActions.EditConstraint; constraintId: ConstraintId }
   | { type: ConstraintActions.ApplyConstraintEdits; constraint: Constraint }
   | { type: LocationActions.SelectHouse; houseId: HouseId }
+  | { type: LocationActions.HighlightHouse; houseId: HouseId }
   | { type: LocationActions.SetHouses; houses: Array<House> }
   | { type: LocationActions.SetSchools; schools: Array<School> };

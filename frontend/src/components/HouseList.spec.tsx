@@ -10,7 +10,6 @@ function render(givenProps: Partial<HouseListProps>) {
     houses: new Map(),
     dispatch: () => {},
     selectedHouseId: null,
-    highlightHouse: () => {},
   };
   const props = {
     ...defaultProps,
@@ -108,41 +107,47 @@ describe("HouseList", () => {
     it("calls a callback to highlight the house when the mouse enters", () => {
       const house = houseFactory({});
       const houses = new Map([[house.id, house]]);
-      const highlightHouseSpy = jest.fn();
+      const dispatchSpy = jest.fn();
 
       const { wrapper } = render({
         houses: houses,
-        highlightHouse: highlightHouseSpy,
+        dispatch: dispatchSpy,
       });
 
-      expect(highlightHouseSpy).not.toHaveBeenCalled();
+      expect(dispatchSpy).not.toHaveBeenCalled();
 
       wrapper
         .find(".house-list-item a")
         .first()
         .simulate("mouseenter");
 
-      expect(highlightHouseSpy).toHaveBeenCalledWith(house.id);
+      expect(dispatchSpy).toHaveBeenCalledWith({
+        type: LocationActions.HighlightHouse,
+        houseId: house.id,
+      });
     });
 
     it("calls a callback to clear highlighting when the mouse leaves", () => {
       const house = houseFactory({});
       const houses = new Map([[house.id, house]]);
-      const highlightHouseSpy = jest.fn();
+      const dispatchSpy = jest.fn();
 
       const { wrapper } = render({
         houses: houses,
-        highlightHouse: highlightHouseSpy,
+        dispatch: dispatchSpy,
       });
 
-      expect(highlightHouseSpy).not.toHaveBeenCalled();
+      expect(dispatchSpy).not.toHaveBeenCalled();
 
       wrapper
         .find(".house-list-item a")
         .first()
         .simulate("mouseleave");
 
-      expect(highlightHouseSpy).toHaveBeenCalledWith(null);
+      expect(dispatchSpy).toHaveBeenCalledWith({
+        type: LocationActions.HighlightHouse,
+        houseId: null,
+      });
     });
   });
 });

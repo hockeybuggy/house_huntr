@@ -32,7 +32,6 @@ export interface HouseListProps {
   houses: Map<HouseId, House>;
   dispatch: React.Dispatch<ActionTypes>;
   selectedHouseId: HouseId;
-  highlightHouse: (id: HouseId) => void;
 }
 export const HouseList = (props: HouseListProps) => (
   <div className="house-list-container">
@@ -41,15 +40,25 @@ export const HouseList = (props: HouseListProps) => (
         <HouseListItem
           key={house.id}
           house={house}
+          isSelected={props.selectedHouseId === house.id}
           selectHouse={() =>
             props.dispatch({
               type: LocationActions.SelectHouse,
               houseId: house.id,
             })
           }
-          isSelected={props.selectedHouseId === house.id}
-          highlightHouse={() => props.highlightHouse(house.id)}
-          clearHighlightedHouse={() => props.highlightHouse(null)}
+          highlightHouse={() =>
+            props.dispatch({
+              type: LocationActions.HighlightHouse,
+              houseId: house.id,
+            })
+          }
+          clearHighlightedHouse={() =>
+            props.dispatch({
+              type: LocationActions.HighlightHouse,
+              houseId: null,
+            })
+          }
         />
       ))}
     </ul>

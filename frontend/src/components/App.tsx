@@ -1,8 +1,8 @@
-import React, { useReducer, useEffect, useState } from "react";
+import React, { useReducer, useEffect } from "react";
 
 import "./../app.css";
 
-import { House, HouseId, Locateable, School } from "./../types";
+import { House, School } from "./../types";
 import { getLocations } from "./../clients";
 
 import { Controls } from "./Controls";
@@ -26,14 +26,6 @@ export const App = (props: {}) => {
     );
   }, []);
 
-  const [highlightedHouseId, setHighlightedHouseId] = useState<HouseId | null>(
-    null
-  );
-
-  const highlightHouse = (id: HouseId): void => {
-    setHighlightedHouseId(id);
-  };
-
   return (
     <div className="app-container">
       <Header />
@@ -47,7 +39,7 @@ export const App = (props: {}) => {
         houses={state.locations.houses}
         schools={state.locations.schools}
         selectedHouseId={state.locations.selectedHouseId}
-        highlightedHouseId={highlightedHouseId}
+        highlightedHouseId={state.locations.highlightedHouseId}
       />
 
       <div className="houses-container">
@@ -61,7 +53,6 @@ export const App = (props: {}) => {
         <HouseList
           houses={state.locations.houses}
           selectedHouseId={state.locations.selectedHouseId}
-          highlightHouse={highlightHouse}
           dispatch={dispatch}
         />
       </div>
