@@ -1,5 +1,5 @@
 import { mount, ReactWrapper } from "enzyme";
-import * as React from "react";
+import React from "react";
 import { act } from "react-dom/test-utils";
 
 import { constraintFactory } from "./../factories";

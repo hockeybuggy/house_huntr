@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 import { House } from "./../types";
 import { ActionTypes, LocationActions } from "./../state/actions";
