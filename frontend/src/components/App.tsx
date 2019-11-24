@@ -48,6 +48,7 @@ export const App = (props: {}) => {
         schools={state.locations.schools}
         selectedHouseId={state.locations.selectedHouseId}
         highlightedHouseId={state.locations.highlightedHouseId}
+        dispatch={dispatch}
       />
 
       <div className="houses-container">

@@ -3,6 +3,7 @@ import React from "react";
 
 import { WorldMap, WorldMapProps } from "./WorldMap";
 import { houseFactory, schoolFactory } from "./../factories";
+import { LocationActions } from "./../state/actions";
 
 function render(givenProps: Partial<WorldMapProps>) {
   const defaultProps: WorldMapProps = {
@@ -10,6 +11,7 @@ function render(givenProps: Partial<WorldMapProps>) {
     schools: new Map(),
     selectedHouseId: null,
     highlightedHouseId: null,
+    dispatch: () => {},
   };
   const props = {
     ...defaultProps,
@@ -120,5 +122,51 @@ describe("WorldMap", () => {
       backgroundColor: "orange",
     };
     expect(selected.find("div").prop("style")).toEqual(expectedStyles);
+  });
+
+  it("dispatches an action to highlight the house when the mouse enters", () => {
+    const house = houseFactory({});
+    const houses = new Map([[house.id, house]]);
+    const dispatchSpy = jest.fn();
+
+    const { wrapper } = render({
+      houses: houses,
+      dispatch: dispatchSpy,
+    });
+
+    expect(dispatchSpy).not.toHaveBeenCalled();
+
+    wrapper
+      .find(".map-location")
+      .first()
+      .simulate("mouseenter");
+
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      type: LocationActions.HighlightHouse,
+      houseId: house.id,
+    });
+  });
+
+  it("dispatchs an action to clear highlighting when the mouse leaves", () => {
+    const house = houseFactory({});
+    const houses = new Map([[house.id, house]]);
+    const dispatchSpy = jest.fn();
+
+    const { wrapper } = render({
+      houses: houses,
+      dispatch: dispatchSpy,
+    });
+
+    expect(dispatchSpy).not.toHaveBeenCalled();
+
+    wrapper
+      .find(".map-location")
+      .first()
+      .simulate("mouseleave");
+
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      type: LocationActions.HighlightHouse,
+      houseId: null,
+    });
   });
 });

@@ -104,7 +104,7 @@ describe("HouseList", () => {
       });
     });
 
-    it("calls a callback to highlight the house when the mouse enters", () => {
+    it("dispatches an action to highlight the house when the mouse enters", () => {
       const house = houseFactory({});
       const houses = new Map([[house.id, house]]);
       const dispatchSpy = jest.fn();
@@ -127,7 +127,7 @@ describe("HouseList", () => {
       });
     });
 
-    it("calls a callback to clear highlighting when the mouse leaves", () => {
+    it("dispatchs an action to clear highlighting when the mouse leaves", () => {
       const house = houseFactory({});
       const houses = new Map([[house.id, house]]);
       const dispatchSpy = jest.fn();

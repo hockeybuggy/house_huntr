@@ -8,8 +8,10 @@ import {
   School,
   SchoolId,
 } from "./../types";
+import { ActionTypes, LocationActions } from "./../state/actions";
 
 export interface WorldMapProps {
+  dispatch: React.Dispatch<ActionTypes>;
   houses: Map<HouseId, House>;
   schools: Map<SchoolId, School>;
   selectedHouseId: HouseId | null;
@@ -30,6 +32,18 @@ export const WorldMap = (props: WorldMapProps) => {
             type={loc.type}
             selected={(loc as House).id === props.selectedHouseId}
             highlighted={(loc as House).id === props.highlightedHouseId}
+            setHighlight={() =>
+              props.dispatch({
+                type: LocationActions.HighlightHouse,
+                houseId: (loc as House).id,
+              })
+            }
+            clearHighlight={() =>
+              props.dispatch({
+                type: LocationActions.HighlightHouse,
+                houseId: null,
+              })
+            }
             x={loc.location.x}
             y={loc.location.y}
           />
@@ -39,14 +53,6 @@ export const WorldMap = (props: WorldMapProps) => {
   );
 };
 
-interface WorldMapLocationProps {
-  type: LocationTypes;
-  selected: boolean;
-  highlighted: boolean;
-  x: number;
-  y: number;
-}
-
 function getColorForLocationType(type: LocationTypes): string {
   switch (type) {
     case "house":
@@ -55,6 +61,16 @@ function getColorForLocationType(type: LocationTypes): string {
       return "blue";
   }
   throw Error(`Non exaustive match for location color ${type}`);
+}
+
+interface WorldMapLocationProps {
+  type: LocationTypes;
+  selected: boolean;
+  highlighted: boolean;
+  setHighlight: () => void;
+  clearHighlight: () => void;
+  x: number;
+  y: number;
 }
 
 export const WorldMapLocation = (props: WorldMapLocationProps) => {
@@ -75,6 +91,8 @@ export const WorldMapLocation = (props: WorldMapLocationProps) => {
         top: `${props.y}px`,
         backgroundColor: color,
       }}
+      onMouseEnter={() => props.setHighlight()}
+      onMouseLeave={() => props.clearHighlight()}
     ></div>
   );
 };
