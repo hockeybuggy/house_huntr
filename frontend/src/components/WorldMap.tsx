@@ -44,6 +44,12 @@ export const WorldMap = (props: WorldMapProps) => {
                 houseId: null,
               })
             }
+            setSelected={() =>
+              props.dispatch({
+                type: LocationActions.SelectHouse,
+                houseId: (loc as House).id,
+              })
+            }
             x={loc.location.x}
             y={loc.location.y}
           />
@@ -69,6 +75,7 @@ interface WorldMapLocationProps {
   highlighted: boolean;
   setHighlight: () => void;
   clearHighlight: () => void;
+  setSelected: () => void;
   x: number;
   y: number;
 }
@@ -84,7 +91,7 @@ export const WorldMapLocation = (props: WorldMapLocationProps) => {
   }
 
   return (
-    <div
+    <a
       className="map-location"
       style={{
         left: `${props.x}px`,
@@ -93,6 +100,7 @@ export const WorldMapLocation = (props: WorldMapLocationProps) => {
       }}
       onMouseEnter={() => props.setHighlight()}
       onMouseLeave={() => props.clearHighlight()}
-    ></div>
+      onClick={() => props.setSelected()}
+    ></a>
   );
 };

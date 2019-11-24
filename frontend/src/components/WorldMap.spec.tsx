@@ -49,7 +49,7 @@ describe("WorldMap", () => {
     expect(
       locations
         .at(0)
-        .find("div")
+        .find("a")
         .prop("style")
     ).toEqual(expectedStyles);
   });
@@ -66,7 +66,7 @@ describe("WorldMap", () => {
       top: expect.anything(),
       backgroundColor: "green",
     };
-    expect(houseLocation.find("div").prop("style")).toEqual(expectedStyles);
+    expect(houseLocation.find("a").prop("style")).toEqual(expectedStyles);
   });
 
   it("renders locations with 'school' type as blue", () => {
@@ -81,7 +81,7 @@ describe("WorldMap", () => {
       top: expect.anything(),
       backgroundColor: "blue",
     };
-    expect(schoolLocation.find("div").prop("style")).toEqual(expectedStyles);
+    expect(schoolLocation.find("a").prop("style")).toEqual(expectedStyles);
   });
 
   it("renders selected locations as red", () => {
@@ -101,7 +101,7 @@ describe("WorldMap", () => {
       top: expect.anything(),
       backgroundColor: "red",
     };
-    expect(selected.find("div").prop("style")).toEqual(expectedStyles);
+    expect(selected.find("a").prop("style")).toEqual(expectedStyles);
   });
 
   it("renders selected locations as orange", () => {
@@ -121,7 +121,7 @@ describe("WorldMap", () => {
       top: expect.anything(),
       backgroundColor: "orange",
     };
-    expect(selected.find("div").prop("style")).toEqual(expectedStyles);
+    expect(selected.find("a").prop("style")).toEqual(expectedStyles);
   });
 
   it("dispatches an action to highlight the house when the mouse enters", () => {
@@ -167,6 +167,29 @@ describe("WorldMap", () => {
     expect(dispatchSpy).toHaveBeenCalledWith({
       type: LocationActions.HighlightHouse,
       houseId: null,
+    });
+  });
+
+  it("dispatchs an action to select a house when clicked", () => {
+    const house = houseFactory({});
+    const houses = new Map([[house.id, house]]);
+    const dispatchSpy = jest.fn();
+
+    const { wrapper } = render({
+      houses: houses,
+      dispatch: dispatchSpy,
+    });
+
+    expect(dispatchSpy).not.toHaveBeenCalled();
+
+    wrapper
+      .find(".map-location")
+      .first()
+      .simulate("click");
+
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      type: LocationActions.SelectHouse,
+      houseId: house.id,
     });
   });
 });
