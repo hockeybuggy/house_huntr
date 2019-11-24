@@ -1,13 +1,28 @@
+body {
+  font-family: Gill Sans Extrabold, sans-serif;
+}
 
 .app-container {
   display: flex;
+  justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
+  min-width: 355px;
 }
 
 .app-container > * {
   padding: 10px;
   flex: 1 100%;
+  max-width: 1000px;
+}
+
+.header-container h1 {
+  margin: 0;
+}
+
+.map-outer-container {
+  display: flex;
+  justify-content: center;
 }
 
 .map-container {
@@ -31,6 +46,10 @@
   padding: 1em;
   border: solid;
   border-width: thin;
+}
+
+.houses-container {
+  max-width: 600px;
 }
 
 .house-list-container {
@@ -60,8 +79,18 @@
   background-color: lightgrey;
 }
 
-@media all and (min-width: 600px) {
+@media all and (min-width: 700px) {
   .map-outer-container { flex: 0 1 0; }
 
   .houses-container { flex: 1 0 0; }
+}
+
+
+@media all and (max-width: 700px) {
+  .map-container {
+    overflow: scroll;
+    width: 100%;
+    min-width: 275px;
+    max-width: 400px;
+  }
 }
