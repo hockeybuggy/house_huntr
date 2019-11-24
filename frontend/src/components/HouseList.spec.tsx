@@ -95,7 +95,7 @@ describe("HouseList", () => {
       expect(wrapper.find(".house-list-item").length).toEqual(0);
     });
 
-    it("dispatchs a `selectHouse` action when a list item is clicked", () => {
+    it("dispatches a `selectHouse` action when a list item is clicked", () => {
       const house = houseFactory({});
       const houses = new Map([[house.id, house]]);
       const dispatchSpy = jest.fn();
@@ -140,7 +140,7 @@ describe("HouseList", () => {
       });
     });
 
-    it("dispatchs an action to clear highlighting when the mouse leaves", () => {
+    it("dispatches an action to clear highlighting when the mouse leaves", () => {
       const house = houseFactory({});
       const houses = new Map([[house.id, house]]);
       const dispatchSpy = jest.fn();

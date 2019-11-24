@@ -168,7 +168,7 @@ describe("WorldMap", () => {
     });
   });
 
-  it("dispatchs an action to clear highlighting when the mouse leaves", () => {
+  it("dispatches an action to clear highlighting when the mouse leaves", () => {
     const house = houseFactory({});
     const houses = new Map([[house.id, house]]);
     const dispatchSpy = jest.fn();
@@ -191,7 +191,7 @@ describe("WorldMap", () => {
     });
   });
 
-  it("dispatchs an action to select a house when clicked", () => {
+  it("dispatches an action to select a house when clicked", () => {
     const house = houseFactory({});
     const houses = new Map([[house.id, house]]);
     const dispatchSpy = jest.fn();
