@@ -98,3 +98,32 @@ Given more time I would consider the following improvements:
 - The `ConstraintForm` isn't really styled.
 - The app doesn't make any real HTTP calls and has no backend.
 
+
+## Demo
+
+It can be sorta cumbersome to start up an application that a candidate submits
+as well as sometimes features aren't super discoverable. To help with that I
+recorded some gifs of the features of the app.
+
+
+### Responsive
+
+The app works on a number of screen sizes.
+
+![The app is responsive.](/images/responsive.gif)
+
+
+### Selecting Houses
+
+When you hover over items in the list or on the map they change colours. When
+we click either the item in the list of the map the "details" of that house are
+shown.
+
+![You can select houses on the map or the list.](/images/selecting_houses.gif)
+
+
+### Constraints
+
+You can filter down the list of houses to just the ones that suit your needs.
+
+![You can filter down the list of houses based on your needs](/images/constraints.gif)
