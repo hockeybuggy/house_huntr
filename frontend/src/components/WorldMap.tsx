@@ -14,6 +14,7 @@ export interface WorldMapProps {
   dispatch: React.Dispatch<ActionTypes>;
   houses: Map<HouseId, House>;
   schools: Map<SchoolId, School>;
+  excludedHouses: Set<HouseId>;
   selectedHouseId: HouseId | null;
   highlightedHouseId: HouseId | null;
 }
@@ -30,6 +31,7 @@ export const WorldMap = (props: WorldMapProps) => {
           <WorldMapLocation
             key={i}
             type={loc.type}
+            disabled={props.excludedHouses.has((loc as House).id)}
             selected={(loc as House).id === props.selectedHouseId}
             highlighted={(loc as House).id === props.highlightedHouseId}
             setHighlight={() =>
@@ -71,6 +73,7 @@ function getColorForLocationType(type: LocationTypes): string {
 
 interface WorldMapLocationProps {
   type: LocationTypes;
+  disabled: boolean;
   selected: boolean;
   highlighted: boolean;
   setHighlight: () => void;
@@ -83,12 +86,20 @@ interface WorldMapLocationProps {
 export const WorldMapLocation = (props: WorldMapLocationProps) => {
   let color = getColorForLocationType(props.type);
 
+  if (props.disabled) {
+    color = "grey";
+  }
   if (props.highlighted) {
     color = "orange";
   }
   if (props.selected) {
     color = "red";
   }
+
+  const noop = () => {};
+  const onMouseEnter = props.disabled ? noop : () => props.setHighlight();
+  const onMouseLeave = props.disabled ? noop : () => props.clearHighlight();
+  const onClick = props.disabled ? noop : () => props.setSelected();
 
   return (
     <a
@@ -98,9 +109,9 @@ export const WorldMapLocation = (props: WorldMapLocationProps) => {
         top: `${props.y}px`,
         backgroundColor: color,
       }}
-      onMouseEnter={() => props.setHighlight()}
-      onMouseLeave={() => props.clearHighlight()}
-      onClick={() => props.setSelected()}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onClick={onClick}
     ></a>
   );
 };

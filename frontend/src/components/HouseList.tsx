@@ -30,37 +30,43 @@ const HouseListItem = (props: HouseListItemProps) => (
 
 export interface HouseListProps {
   houses: Map<HouseId, House>;
+  excludedHouses: Set<HouseId>;
   dispatch: React.Dispatch<ActionTypes>;
   selectedHouseId: HouseId;
 }
-export const HouseList = (props: HouseListProps) => (
-  <div className="house-list-container">
-    <ul className="house-list">
-      {Array.from<House>(props.houses.values()).map(house => (
-        <HouseListItem
-          key={house.id}
-          house={house}
-          isSelected={props.selectedHouseId === house.id}
-          selectHouse={() =>
-            props.dispatch({
-              type: LocationActions.SelectHouse,
-              houseId: house.id,
-            })
-          }
-          highlightHouse={() =>
-            props.dispatch({
-              type: LocationActions.HighlightHouse,
-              houseId: house.id,
-            })
-          }
-          clearHighlightedHouse={() =>
-            props.dispatch({
-              type: LocationActions.HighlightHouse,
-              houseId: null,
-            })
-          }
-        />
-      ))}
-    </ul>
-  </div>
-);
+export const HouseList = (props: HouseListProps) => {
+  const shownHouses = Array.from<House>(props.houses.values()).filter(
+    house => !props.excludedHouses.has(house.id)
+  );
+  return (
+    <div className="house-list-container">
+      <ul className="house-list">
+        {shownHouses.map(house => (
+          <HouseListItem
+            key={house.id}
+            house={house}
+            isSelected={props.selectedHouseId === house.id}
+            selectHouse={() =>
+              props.dispatch({
+                type: LocationActions.SelectHouse,
+                houseId: house.id,
+              })
+            }
+            highlightHouse={() =>
+              props.dispatch({
+                type: LocationActions.HighlightHouse,
+                houseId: house.id,
+              })
+            }
+            clearHighlightedHouse={() =>
+              props.dispatch({
+                type: LocationActions.HighlightHouse,
+                houseId: null,
+              })
+            }
+          />
+        ))}
+      </ul>
+    </div>
+  );
+};

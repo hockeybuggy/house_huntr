@@ -10,6 +10,7 @@ function render(givenProps: Partial<HouseListProps>) {
     houses: new Map(),
     dispatch: () => {},
     selectedHouseId: null,
+    excludedHouses: new Set(),
   };
   const props = {
     ...defaultProps,
@@ -80,6 +81,18 @@ describe("HouseList", () => {
           .first()
           .hasClass("house-list-item--selected")
       ).toBe(true);
+    });
+
+    it("excludes excluded houses from the list", () => {
+      const house = houseFactory({});
+      const houses = new Map([[house.id, house]]);
+      const { wrapper } = render({
+        houses: houses,
+        excludedHouses: new Set([house.id]),
+      });
+
+      expect(wrapper.find(".house-list").exists()).toBe(true);
+      expect(wrapper.find(".house-list-item").length).toEqual(0);
     });
 
     it("dispatchs a `selectHouse` action when a list item is clicked", () => {

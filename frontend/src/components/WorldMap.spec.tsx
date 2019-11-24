@@ -11,6 +11,7 @@ function render(givenProps: Partial<WorldMapProps>) {
     schools: new Map(),
     selectedHouseId: null,
     highlightedHouseId: null,
+    excludedHouses: new Set(),
     dispatch: () => {},
   };
   const props = {
@@ -120,6 +121,26 @@ describe("WorldMap", () => {
       left: expect.anything(),
       top: expect.anything(),
       backgroundColor: "orange",
+    };
+    expect(selected.find("a").prop("style")).toEqual(expectedStyles);
+  });
+
+  it("renders excluded locations as grey", () => {
+    const houses = new Map();
+    const house = houseFactory({});
+    houses.set(house.id, house);
+    const highlightedHouseId = house.id;
+    const { wrapper } = render({
+      houses: houses,
+      excludedHouses: new Set([house.id]),
+    });
+
+    const selected = wrapper.find(".map-location").first();
+
+    const expectedStyles = {
+      left: expect.anything(),
+      top: expect.anything(),
+      backgroundColor: "grey",
     };
     expect(selected.find("a").prop("style")).toEqual(expectedStyles);
   });

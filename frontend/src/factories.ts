@@ -60,7 +60,7 @@ export function schoolFactory(overrides: Partial<School>): School {
 export function constraintFactory(overrides: Partial<Constraint>): Constraint {
   // Create a semi-random Constraint, with optional overrides for any value.
   return {
-    type: randomChoice(["bedrooms", "bathroom"]),
+    type: randomChoice(["bedrooms", "bathrooms"]),
     id: uuidv4(),
     value: Math.round(Math.random() * 10) % 10,
     operator: randomChoice(["<", "<=", "=", ">=", ">"]),

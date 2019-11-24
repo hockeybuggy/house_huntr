@@ -2,7 +2,7 @@ import React, { useReducer, useEffect, useState } from "react";
 
 import "./../app.css";
 
-import { House, School } from "./../types";
+import { ConstraintOperator, HouseId, House, School } from "./../types";
 import { getLocations } from "./../clients";
 
 import { Controls } from "./Controls";
@@ -34,6 +34,33 @@ export const App = (props: {}) => {
     [] // causes the effect to be triggered once
   );
 
+  const operatorMap: Record<
+    ConstraintOperator,
+    { (a: number, b: number): boolean }
+  > = {
+    "<": (a: number, b: number) => a < b,
+    "<=": (a: number, b: number) => a <= b,
+    "=": (a: number, b: number) => a === b,
+    ">=": (a: number, b: number) => a >= b,
+    ">": (a: number, b: number) => a > b,
+  };
+
+  const excludedHouses: Set<HouseId> = new Set();
+  for (let [_, constraint] of state.controls.constraints) {
+    for (let [_, house] of state.locations.houses) {
+      const comparison = operatorMap[constraint.operator];
+      if (constraint.type == "bedrooms") {
+        if (!comparison(constraint.value, house.num_bedrooms)) {
+          excludedHouses.add(house.id);
+        }
+      } else if (constraint.type == "bathrooms") {
+        if (!comparison(constraint.value, house.num_bathrooms)) {
+          excludedHouses.add(house.id);
+        }
+      }
+    }
+  }
+
   return (
     <div className="app-container">
       <Header />
@@ -46,6 +73,7 @@ export const App = (props: {}) => {
       <WorldMap
         houses={state.locations.houses}
         schools={state.locations.schools}
+        excludedHouses={excludedHouses}
         selectedHouseId={state.locations.selectedHouseId}
         highlightedHouseId={state.locations.highlightedHouseId}
         dispatch={dispatch}
@@ -61,6 +89,7 @@ export const App = (props: {}) => {
         {isLoading ? (
           <HouseList
             houses={state.locations.houses}
+            excludedHouses={excludedHouses}
             selectedHouseId={state.locations.selectedHouseId}
             dispatch={dispatch}
           />

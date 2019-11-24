@@ -24,7 +24,7 @@ export interface School extends Locateable {
 
 export type ConstraintId = string;
 
-export type ConstraintTypes = "bedrooms" | "bathroom";
+export type ConstraintTypes = "bedrooms" | "bathrooms";
 export type ConstraintOperator = "<" | "<=" | "=" | ">=" | ">";
 
 export interface Constraint {
