@@ -4,7 +4,7 @@ import { House, School } from "./types";
 
 const NUMBER_OF_HOUSES = 31;
 const NUMBER_OF_SCHOOLS = 3;
-const DELAY = 100;
+const DELAY = 500;
 
 export const getLocations = (): Promise<{
   houses: Array<House>;

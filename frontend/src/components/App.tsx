@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer, useEffect, useState } from "react";
 
 import "./../app.css";
 
@@ -16,15 +16,23 @@ import { LocationActions } from "./../state/actions";
 
 export const App = (props: {}) => {
   const [state, dispatch] = useReducer(reducer, null, initializeState);
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    getLocations().then(
-      (result: { houses: Array<House>; schools: Array<School> }) => {
-        dispatch({ type: LocationActions.SetHouses, houses: result.houses });
-        dispatch({ type: LocationActions.SetSchools, schools: result.schools });
-      }
-    );
-  }, []);
+  useEffect(
+    () => {
+      getLocations().then(
+        (result: { houses: Array<House>; schools: Array<School> }) => {
+          setIsLoading(true);
+          dispatch({ type: LocationActions.SetHouses, houses: result.houses });
+          dispatch({
+            type: LocationActions.SetSchools,
+            schools: result.schools,
+          });
+        }
+      );
+    },
+    [] // causes the effect to be triggered once
+  );
 
   return (
     <div className="app-container">
@@ -49,12 +57,17 @@ export const App = (props: {}) => {
           )}
           dispatch={dispatch}
         />
-
-        <HouseList
-          houses={state.locations.houses}
-          selectedHouseId={state.locations.selectedHouseId}
-          dispatch={dispatch}
-        />
+        {isLoading ? (
+          <HouseList
+            houses={state.locations.houses}
+            selectedHouseId={state.locations.selectedHouseId}
+            dispatch={dispatch}
+          />
+        ) : (
+          <div>
+            <h2>loading</h2>
+          </div>
+        )}
       </div>
     </div>
   );
